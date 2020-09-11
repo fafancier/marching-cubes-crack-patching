@@ -1,18 +1,7 @@
 import numpy as np
 import lookup
 from tqdm import tqdm
-
-def isosurface(func):
-    # Wrapper function
-    def inner_func(p):
-        x, y, z = p
-        return func(x, y, z)
-    return inner_func
-
-@isosurface
-def func(x, y, z):
-    #return x**2 + y**2 + z**2
-    return (np.sqrt(x**2 + y**2) - 0.6)**2 + z**2
+import functions
 
 
 """         
@@ -70,6 +59,7 @@ def get_triangles(grid, gridval, isovalue):
     triangles = np.stack(triangles)
     return triangles
 
+# marching cube
 inc = np.array([
     [0, 0, 0],
     [0, 1, 0],
@@ -83,31 +73,38 @@ inc = np.array([
 
 
 # Make bounding box
-box = np.mgrid[-1:1:21j,-1:1:21j,-1:1:21j]
-_, step_x, step_y, step_z = box.shape
+delta = 0.05
+x_min, x_max = -1, 1
+y_min, y_max = -1, 1
+z_min, z_max = -1, 1
+step_x = int((x_max - x_min) / delta)
+step_y = int((y_max - y_min) / delta)
+step_z = int((z_max - z_min) / delta)
 
-delta = 0.2
-isolevel = 0.4**2
+box = np.mgrid[x_min:x_max:(step_x+1)*1j,y_min:y_max:(step_y+1)*1j,z_min:z_max:(step_z+1)*1j]
+
+isolevel = 0.3**2
+func = functions.torus(0.5)
 
 vs = {}
 faces = []
 
-for i in range(step_x - 1):
-    for j in range(step_y - 1):
-        for k in range(step_z - 1):
-            cube = box[:, i, j, k]
-            cube = cube + inc * delta
+for i in range(step_x):
+    for j in range(step_y):
+        for k in range(step_z):
+            cube = box[:, i, j, k] + inc * delta
             val = np.apply_along_axis(func, 1, cube)
             tri = get_triangles(cube, val, isolevel)
-            if tri is not None:
-                for t in tri:
-                    vid_list = []
-                    for v in t:
-                        v = tuple(v)
-                        if v not in vs:
-                            vs[v] = len(vs) + 1
-                        vid_list.append(vs[v])
-                    faces.append(vid_list)
+            if tri is None:
+                continue
+            for t in tri:
+                vid_list = []
+                for v in t:
+                    v = tuple(v)
+                    if v not in vs:
+                        vs[v] = len(vs) + 1
+                    vid_list.append(vs[v])
+                faces.append(vid_list)
 
 with open('torus.obj', 'w') as file:
     for v in vs:
