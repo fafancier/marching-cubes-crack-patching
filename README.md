@@ -7,6 +7,8 @@ Use [Marching Cubes](https://en.wikipedia.org/wiki/Marching_cubes) to generate t
 |--|--|--|--|
 |Rendered mesh|![img](results/torus_1.png)|![img](results/torus_2.png)|![img](results/torus_3.png)|
 
+The mesh is rendered by the [renderer I wrote](https://github.com/bchao1/go-render).
+
 ## Usage
 See `main.py`. Modify parameters as you wish. There are some implicit functions already defined in `src/functions.py`.
 
