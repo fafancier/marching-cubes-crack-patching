@@ -18,3 +18,8 @@ def torus(R = 0.5):
     def func(x, y, z):
         return (np.sqrt(x**2 + y**2) - R)**2 + z**2
     return func
+
+func_list = {
+    'sphere': sphere,
+    'torus': torus
+}
