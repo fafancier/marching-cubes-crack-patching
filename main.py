@@ -7,13 +7,13 @@ def main(func, isolevel, x_range, y_range, z_range, delta, out_file):
     
 if __name__ == '__main__':
 
-    delta = 0.05
-    x_range = (-1, 1)
-    y_range = (-1, 1)
-    z_range = (-1, 1)
+    delta = 0.1
+    x_range = (-2, 2)
+    y_range = (-2, 2)
+    z_range = (-2, 2)
 
-    isolevel = 0.3**2
-    func = functions.torus(0.5)
+    isolevel = 0.5**2
+    func = functions.torus(1)
     
     out_file = 'obj/torus_3.obj'
 

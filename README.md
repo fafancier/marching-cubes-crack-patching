@@ -6,6 +6,8 @@ Use [Marching Cubes](https://en.wikipedia.org/wiki/Marching_cubes) to generate t
 |Marching cubes size|0.2|0.1|0.05|
 |--|--|--|--|
 |Rendered mesh|![img](results/torus_1.png)|![img](results/torus_2.png)|![img](results/torus_3.png)|
+|Number of faces|392|1616|6552|
+|Number of vertices|728|2708|11236|
 
 The mesh is rendered by the [renderer I wrote](https://github.com/bchao1/go-render).
 
